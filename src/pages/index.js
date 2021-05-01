@@ -6,9 +6,11 @@ import MoreStories from "../components/more-stories";
 import { HelmetDatoCms } from "gatsby-source-datocms";
 import { graphql } from "gatsby";
 
-export default function Index({ data: { allPosts, site, blog } }) {
+export default function Index({ data: { allPosts, allCursos, site, blog } }) {
   const heroPost = allPosts.nodes[0];
   const morePosts = allPosts.nodes.slice(1);
+  const meusCursos = allCursos.nodes;
+  console.log(meusCursos)
 
   return (
     <Container>
@@ -39,6 +41,13 @@ export const query = graphql`
     blog: datoCmsBlog {
       seo: seoMetaTags {
         ...GatsbyDatoCmsSeoMetaTags
+      }
+    }
+    allCursos: allDatoCmsCurso {
+      nodes {
+        titulo
+        instituicao
+        periodo(fromNow: true)
       }
     }
     allPosts: allDatoCmsPost(sort: { fields: date, order: DESC }, limit: 20) {
